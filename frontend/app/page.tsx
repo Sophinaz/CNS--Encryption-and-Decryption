@@ -1,5 +1,6 @@
 import Image from "next/image";
-import AlgorithmSelector from "./components/algorithmSelector"; 
+import AlgorithmSelector from "./components/algorithmSelector";
+import TextBox from "./components/textBox";
 
 export default function Home() {
   return (
@@ -16,7 +17,15 @@ export default function Home() {
       <div className="justify-center mt-10 flex">
         <AlgorithmSelector />
       </div>
-
+      <div className=" flex px-5 justify-around my-10">
+        <div className="border-2 py-8 rounded-xl w-2/5">
+          <TextBox action="Encrypt" messageToShow="temp message" title="Encrypt a message" />
+        </div>
+        <div className="border-2 py-8 rounded-xl w-2/5">
+          <TextBox action="Decrypt" messageToShow="" title="Decrypt a message" />
+        </div>
+      </div>
+      
     </main>
   );
 }
