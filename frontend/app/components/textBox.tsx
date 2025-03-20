@@ -38,7 +38,7 @@ const TextBox = ({ title, action, messageToShow, takeAction }: Props) => {
 
       <div className="flex space-x-4 mt-5 justify-center py-3">
         <h1 className="font-semibold mt-1">Result:</h1>
-        <h1 className="mt-1 font-bold" >{messageToShow}</h1>
+        <h1 className="mt-1 w-3/4 font-semibold overflow-x-scroll px-1 border-2" >{messageToShow}</h1>
       </div>
     </div>
   );

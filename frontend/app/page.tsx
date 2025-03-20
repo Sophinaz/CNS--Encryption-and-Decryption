@@ -15,6 +15,8 @@ export default function Home() {
   const [method, setMethod] = useState("aes");
   const [encryptMessage, setEncryptMessage] = useState("");
   const [decryptMessage, setDecryptMessage] = useState("");
+  const [enMessage, setEnMessage] = useState("");
+  const [decMessage, setDecMessage] = useState("");
 
   const [encryptWithAES] = useEncryptWithAESMutation();
   const [decryptWithAES] = useDecryptWithAESMutation();
@@ -27,22 +29,71 @@ export default function Home() {
     setMethod(choice);
   };
 
-  const handleEncrypt = async (message: string, secret: string) => {
+  interface typeData {
+    message: string;
+    secret: string;
+  }
+  interface typeResult {
+    data: {};
+  }
+
+  const handleEncrypt = async (
+    message: string,
+    secret: string,
+    encryptionMethod: (data: typeData) => void
+  ) => {
     try {
       const data = {
         message: message,
         secret: secret,
       };
 
-      const result = await encryptWithAES(data);
-      console.log("result", result)
+      const result: any = await encryptionMethod(data);
+      console.log("result", result);
+      setEnMessage(result.data.encryptedMessage);
     } catch (error) {
       console.log("error", error);
       alert("Failed");
     }
   };
 
-  const handleDecrypt = (message: string, secret: string) => {};
+  const handleDecrypt = async (
+    message: string,
+    secret: string,
+    decryptionMethod: (data: typeData) => void
+  ) => {
+    try {
+      const data = {
+        message: message,
+        secret: secret,
+      };
+
+      const result: any = await decryptionMethod(data);
+      setDecMessage(result.data.decryptedMessage);
+    } catch (error) {
+      alert("Failed");
+    }
+  };
+
+  const handleGeneralEncryption = (message: string, secret: string) => {
+    if (method === "aes") {
+      handleEncrypt(message, secret, encryptWithAES);
+    } else if (method === "3des") {
+      handleEncrypt(message, secret, encryptWith3DES);
+    } else {
+      handleEncrypt(message, secret, encryptWithOTP);
+    }
+  };
+
+  const handleGeneralDecryption = (message: string, secret: string) => {
+    if (method === "aes") {
+      handleDecrypt(message, secret, decryptWithAES);
+    } else if (method === "3des") {
+      handleDecrypt(message, secret, decryptWith3DES);
+    } else {
+      handleDecrypt(message, secret, decryptWithOTP);
+    }
+  };
 
   return (
     <main>
@@ -64,17 +115,17 @@ export default function Home() {
       <div className=" flex px-5 justify-around my-10">
         <div className="border-2 py-8 rounded-xl w-2/5">
           <TextBox
-            takeAction={handleEncrypt}
+            takeAction={handleGeneralEncryption}
             action="Encrypt"
-            messageToShow="temp message"
+            messageToShow={enMessage}
             title="Encrypt a message"
           />
         </div>
         <div className="border-2 py-8 rounded-xl w-2/5">
           <TextBox
-            takeAction={handleDecrypt}
+            takeAction={handleGeneralDecryption}
             action="Decrypt"
-            messageToShow=""
+            messageToShow={decMessage}
             title="Decrypt a message"
           />
         </div>
