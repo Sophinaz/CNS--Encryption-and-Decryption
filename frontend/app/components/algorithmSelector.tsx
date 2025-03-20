@@ -1,6 +1,14 @@
 import React from "react";
 
-const AlgorithmSelector = () => {
+interface Props {
+  setMethodOfEncryption: (choice: string) => void
+}
+ 
+interface typeValue {
+  value: string
+}
+
+const AlgorithmSelector = ({setMethodOfEncryption}: Props) => {
   return (
     <div className=" border-2 w-1/3 px-4 pt-3 pb-10 rounded-xl">
       <div className="mt-3">
@@ -9,10 +17,10 @@ const AlgorithmSelector = () => {
       </div>
       <div className="flex justify-center">
         <div className="mt-4 text-center py-2 px-1 border-2 w-3/4">
-          <select name="" id="">
-            <option value="a">One-Time Pad (OTP)</option>
-            <option value="b">Advanced Encryption Standard (AES)</option>
-            <option value="c">Triple DES (3DES)</option>
+          <select onChange={(e) => {setMethodOfEncryption(e.target.value)}} name="" id="">
+            <option value="aes">Advanced Encryption Standard (AES)</option>
+            <option value="3des">Triple DES (3DES)</option>
+            <option value="otp">One-Time Pad (OTP)</option>
           </select>
         </div>
       </div>
