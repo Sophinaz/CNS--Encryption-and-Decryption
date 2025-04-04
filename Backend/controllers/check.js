@@ -1,0 +1,44 @@
+const crypto = require('crypto');
+
+// Your private key (ensure it's in the correct format, remove escape sequences like \n)
+const privateKey = `-----BEGIN PRIVATE KEY-----
+MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC8m8GRS63ZHpBz
+LRq88eWQDtZ99yp35FyqxjXlIv2vHHOskQPctUeuaEFpl5kAkyud6Dp5hf08AfyN
+t6W7jUTOo8wVhqvYbgwxjj2wzXbJJM0IWaGbv92Q/jr1Qsv/74RcaBvJxkV9OlQK
+gSBklvw92kZZT5yjbhYZQA02GbIhPUsL2X1bewOPCVLYsYatW4xMlRnynqxo/2De
+6RjFXUQM2C0EcuwKjaQROEdFqODQeQBQZEc7pMdWXYjiAh1EZzwLpsTEFlTui2+1
+s5urmZ/MqSKyzL1JMmu0czD/nxUsZcuk3Gem4/zrjscjBcPn8kL0b+AKF/ZI02Av
+CiqT0+A7AgMBAAECggEARn24NMOiMBm6RzG+YovODq9c/ytXlgOllrYKAp+3TLFH
+kmGInf6q0cZpXDuqlYprrNLUuAKaCMl9SMIwkQ5Vfx288vaoV3WZ3ROafu/ry3WT
+o+FMA1gMSVqbUnsqn3c3cwn+CMWvxwP70Qk9wBqmH7/qtwqIMpS8cad8yJGF/+Gy
+RbTQ3VvYUzBWH9UtEAWKkg4X+9F06EKuLuloDYRZNLq19ooDovXE/gH3zwQljYhm
+SzHSWCegru5t5M/Lri5dBZ4OFAFsSZs9KAf7dLAfWnI8iONidcxHgYLsjkPGXcho
+2ncTMDqEGnBP2uS3bfIzzcnFGbF4QdSo1diDsZCoEQKBgQDjrjgJVxSit3tVNRmk
+8H/NsxLguAvsr42bC73Rt5Shh7a/CeeHvem+fj6X+5MpQhC77i9J+W/Gy3uuS2A3
+judN08y2Mcn9Kb5bytXi9TzSED7hy2z3etK8ozquwDp3y3fjk2Y1ZF0gXKKpBG5J
+IJztQyWd+Li3To9DODk2hHxWJQKBgQDUEWgcLj2O0Wb4zwQr2Pd6CrEhMPFZQq1s
+7ahUoZXP2PlEfnFzAUUaEGeYU9jXX8Xk0ak3GQHipTAF0uuN+qAxO8/mtWusalvB
+Fg+Uqx7+KZibNtk0mduFXikU5CXLXrn0qeNAVb1k64TFD047Wg5PBklUPP2madDz
+fLUNdNKe3wKBgQCYQFuGm23YNdxKqXyhmJXORy6biVeoCekmwl5IDHxe3DMvYv8p
+/ax+T0uqNHg/QceQ9IE49Y1yoYXukscfv/cbS0P8niTVn4GFPolzAM2QJ371XSRc
+Bg1ASeMnErLGgxCD5YCWuauwxWGcprLdQerOmnVgQv+6zNTufX184HGI5QKBgQDB
+foRkuhg2uH/g41pl+5iKhTjrFPIRxJHigtIFLk44EDwYL9qp2W3Ig1FSnqaKlPtG
+dbqU6D9dIeW4WqPMrvH9Ghru4Xe2IHFJsyxSNPSZaTCx5pC2uu+eN7T6N9T4Q50e
+TOhp6hFeBLrm5rk11Eyb9BtyPhgeAAzELXQxK/eFNwKBgQCTqOUCUWhZ/xC36YFN
+ZIZCg7av6gA0N6gkcpQpzZj16EdEksXTjx90cIrGI3Z90k4Kc4CzDh/G2C/ARS/8
+TYEPAsKGKK74+v5tBxi/zaeujurF1jaOQKm3vNHupTbky3HYlSg31hInl9XPqKNC
+TUGzsqUW//aBH43veIV8TG0/Zw==
+-----END PRIVATE KEY-----`;
+
+const encryptedMessage = "p8J8PpSTB/9KMYZuQZ14ODBDS9ccbSACouuo3z3MkEOuSnee4LvqyIe2X8qtxgwoYOjT0lXLUswp5oVGvoHTT7hno8jhFklY6LTM+qhUyUm+J6nida6zHkLjaeZgqYvEn59W/cBYb875YuT9TNf+wzvrbJ8Ac0JGrwt0UzreYDD8wgZydpwtsOZcU2Aqo8St3ynRYhfn/ih0OLHLBOXRusBzZKGKX1zd5erk4wcppAwKL/+NUxhG0tgD8ooE/b24oHH2e1+rXlUuS+dOpApb2ezgEeL4oIJ5sd6cq4bvZDWaWP5ewQLSgrE4BjBJkBRyRZjGtmjNeYfJthDVoKvF4Q==";
+
+// Decode the base64-encoded string
+const buffer = Buffer.from(encryptedMessage, 'base64');
+
+// Decrypt the message using the private key
+try {
+  const decrypted = crypto.privateDecrypt(privateKey, buffer);
+  console.log("Decrypted message:", decrypted.toString('utf8'));
+} catch (error) {
+  console.error("Error decrypting message:", error);
+}

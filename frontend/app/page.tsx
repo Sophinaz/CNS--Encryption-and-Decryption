@@ -3,13 +3,16 @@ import {
   useDecryptWith3DESMutation,
   useDecryptWithAESMutation,
   useDecryptWithOTPMutation,
+  useDecryptWithRSAMutation,
   useEncryptWith3DESMutation,
   useEncryptWithAESMutation,
   useEncryptWithOTPMutation,
+  useEncryptWithRSAMutation,
 } from "@/lib/redux/api/getApi";
 import AlgorithmSelector from "./components/algorithmSelector";
 import TextBox from "./components/textBox";
 import { useState } from "react";
+import GeneratePairOfKeys from "./components/GeneratePairOfKeys";
 
 export default function Home() {
   const [method, setMethod] = useState("aes");
@@ -17,6 +20,8 @@ export default function Home() {
   const [decryptMessage, setDecryptMessage] = useState("");
   const [enMessage, setEnMessage] = useState("");
   const [decMessage, setDecMessage] = useState("");
+  const [rsaEncMessage, setRSAEncMessage] = useState("");
+  const [rsaDecMessage, setRSADecMessage] = useState("");
 
   const [encryptWithAES] = useEncryptWithAESMutation();
   const [decryptWithAES] = useDecryptWithAESMutation();
@@ -24,6 +29,8 @@ export default function Home() {
   const [decryptWith3DES] = useDecryptWith3DESMutation();
   const [encryptWithOTP] = useEncryptWithOTPMutation();
   const [decryptWithOTP] = useDecryptWithOTPMutation();
+  const [decryptWithRSA] = useDecryptWithRSAMutation();
+  const [encryptWithRSA] = useEncryptWithRSAMutation();
 
   const setMethodOfEncryption = (choice: string) => {
     setMethod(choice);
@@ -95,6 +102,36 @@ export default function Home() {
     }
   };
 
+  const encryptWithPublicKey = async (message: string, publicKey: string) => {
+    try {
+      const data = {
+        message: message,
+        secret: publicKey,
+      };
+      console.log("data", data)
+      const result = await encryptWithRSA(data);
+      setRSAEncMessage(result.data.encryptedMessage);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  const decryptWithPrivateKey = async (message: string, privateKey: string) => {
+    try {
+      const data = {
+        message: message,
+        secret: privateKey,
+      };
+      const result = await decryptWithRSA(data);
+      setRSADecMessage(result.data.decryptedMessage);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const generatePairOfKeys = () => {};
+
   return (
     <main>
       <h1 className="text-4xl font-extrabold text-center mt-10">
@@ -119,6 +156,7 @@ export default function Home() {
             action="Encrypt"
             messageToShow={enMessage}
             title="Encrypt a message"
+            Ekey="Encryption key"
           />
         </div>
         <div className="border-2 py-8 rounded-xl w-2/5">
@@ -127,6 +165,36 @@ export default function Home() {
             action="Decrypt"
             messageToShow={decMessage}
             title="Decrypt a message"
+            Ekey="Decryption key"
+          />
+        </div>
+      </div>
+
+      <h1 className="text-center mt-2 mb-2 font-bold text-2xl">
+        RSA Encryption and Decryption
+      </h1>
+
+      {/* <div className="flex justify-center">
+        <GeneratePairOfKeys />
+      </div> */}
+
+      <div className=" flex px-5 justify-around my-10">
+        <div className="border-2 py-8 rounded-xl w-2/5">
+          <TextBox
+            takeAction={encryptWithPublicKey}
+            action="Encrypt"
+            messageToShow={rsaEncMessage}
+            title="Use your public key to encrypt your message"
+            Ekey="public key"
+          />
+        </div>
+        <div className="border-2 py-8 rounded-xl w-2/5">
+          <TextBox
+            takeAction={decryptWithPrivateKey}
+            action="Decrypt"
+            messageToShow={rsaDecMessage}
+            title="Use your private key to decrypt your message"
+            Ekey="private key"
           />
         </div>
       </div>

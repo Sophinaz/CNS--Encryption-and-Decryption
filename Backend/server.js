@@ -11,6 +11,7 @@ app.use(express.json());
 app.use("/api/3des", require("./routes/3DESroute"));
 app.use("/api/aes", require("./routes/AESroute"));
 app.use("/api/otp", require("./routes/OTProute"));
+app.use("/api/rsa", require("./routes/RSAroute"));
 app.use(errorHandler);
 
 app.listen(PORT, () => {

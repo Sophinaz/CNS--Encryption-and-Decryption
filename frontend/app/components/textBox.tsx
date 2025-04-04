@@ -4,18 +4,17 @@ interface Props {
   title: string;
   action: string;
   messageToShow: string
+  Ekey: string
   takeAction: (message: string, secret: string) => void
 }
 
 
-
-
-const TextBox = ({ title, action, messageToShow, takeAction }: Props) => {
+const TextBox = ({ title, action, messageToShow, Ekey, takeAction }: Props) => {
   const [message, setMessage] = useState("")
   const [secret, setSecret] = useState("")
 
   return (
-    <div>
+    <div className=" overflow-auto glass-effect">
       <h1 className="text-center font-bold text-xl">{title}</h1>
       <div className="py-2 px-6 mt-4">
         <textarea
@@ -27,7 +26,7 @@ const TextBox = ({ title, action, messageToShow, takeAction }: Props) => {
       </div>
 
       <div className="flex justify-around mt-5 px-4 py-3">
-        <h1 className="font-semibold mt-1">Encryption Key:</h1>
+        <h1 className="font-semibold mt-1">{Ekey}:</h1>
         <input onChange={(e) => {setSecret(e.target.value)}} type="text" className="w-3/5 border-2 px-2 rounded-lg h-10" />
       </div>
 
