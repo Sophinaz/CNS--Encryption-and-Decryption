@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const encryptApi = createApi({
   reducerPath: "encryptApi",
-  baseQuery: fetchBaseQuery({ baseUrl: `http://localhost:4000/api/` }),
+  baseQuery: fetchBaseQuery({ baseUrl: `https://localhost:8443/api/` }),
   endpoints: (builder) => ({
     encryptWithAES: builder.mutation({
       query: (data) => ({
